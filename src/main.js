@@ -1,3 +1,4 @@
+// main file
 let config = {
     type: Phaser.AUTO,
     width: 640,

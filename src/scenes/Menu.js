@@ -1,3 +1,4 @@
+// Menu Scene
 class Menu extends Phaser.Scene{
     constructor(){
         super("menuScene");
