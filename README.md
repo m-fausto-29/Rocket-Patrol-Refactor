@@ -1,2 +1,2 @@
 # RocketPatrolRefactor
-- List of Mods
+- Crashing into other object lose time/points (10)
