@@ -71,6 +71,9 @@ class Play extends Phaser.Scene{
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
 
+        // high score text
+        this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, this.highScore, scoreConfig).setOrigin(0.5, 0);
+
         // GAME OVER flag
         this.gameOver = false
 
@@ -148,6 +151,11 @@ class Play extends Phaser.Scene{
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
+
+        if (this.p1Score > highScores[game.settings.difficulty]) {
+            highScore = rocket.points;
+            this.highScoreText.text = highScore;
+        }
 
         this.sound.play('sfx_explosion');
     }
