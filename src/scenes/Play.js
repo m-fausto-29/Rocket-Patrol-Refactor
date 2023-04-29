@@ -9,6 +9,7 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceshipChallenge', './assets/spaceshipChallenge.png');
+        this.load.image('particle', './assets/particle.png');
         this.load.image('improved_starfield', './assets/improved_starfield.png');
 
         // load spritesheet
@@ -44,12 +45,27 @@ class Play extends Phaser.Scene{
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
+        /*
         //animation config
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
             frameRate: 30
         })
+        */
+
+        // Creating particles and particle emitter 
+        this.particles = this.add.particles('particle');
+        this.emitter = this.particles.createEmitter({
+            speed: 200,
+            lifespan: 500,
+            blendMode: 'Add',
+            scale: {
+                start: 1,
+                end: 0,
+            },
+            on: false,
+        });
 
         // initialize score
         this.p1Score = 0;
@@ -133,6 +149,22 @@ class Play extends Phaser.Scene{
     shipExplode(ship){
         // temporarily hide ship
         ship.alpha = 0;
+
+        // Create particle explosion
+        if(ship.texture.key == "spaceship") {
+            this.particles.emitParticleAt(ship.x, ship.y, 200);
+            this.clock = this.time.delayedCall(1000, () => {
+                ship.reset();
+                ship.alpha = 1;
+            }, null, this);
+        } else if(ship.texture.key == "spaceshipChallenge") {
+            this.particles.emitParticleAt(ship.x+30, ship.y, 200);
+            this.clock = this.time.delayedCall(1000, () => {
+                ship.reset();
+                ship.alpha = 1;
+            }, null, this);
+        }
+        /*
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');             // play explode animation
@@ -141,6 +173,7 @@ class Play extends Phaser.Scene{
             ship.alpha = 1;                     // make ship visible again
             boom.destroy();                     // remove explosion sprite
         });
+        */
         // score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
