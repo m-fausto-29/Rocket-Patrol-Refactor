@@ -136,19 +136,9 @@ class Play extends Phaser.Scene{
         }
     }
 
-    checkCollision(rocket, fship) {
-        //simple AABB checking
-        if(rocket.x < fship.x + fship.width && rocket.x + rocket.width > fship.x && rocket.y < fship.y + fship.height && rocket.height + rocket.y > fship.y){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    shipExplode(ship, fship){
+    shipExplode(ship){
         // temporarily hide ship
         ship.alpha = 0;
-        fship.alpha = 0;
 
         // create explosion sprite at ship's position
         let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
@@ -158,25 +148,16 @@ class Play extends Phaser.Scene{
             ship.alpha = 1;                     // make ship visible again
             boom.destroy();                     // remove explosion sprite
         });
-
-        // create explosion sprite at fship's position
-        let boom1 = this.add.sprite(fship.x, fship.y, 'explosion').setOrigin(0, 0);
-        boom1.anims.play('explode');             // play explode animation
-        boom1.on('animationcomplete', () => {    // callback after anim completes
-            fship.reset();                       // reset ship position
-            fship.alpha = 1;                     // make ship visible again
-            boom1.destroy();                     // remove explosion sprite
-        });
     
         // score add and repaint
-        total = ship.points + fship.points;
-        this.p1Score += total;
+        this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
 
-        if (this.p1Score > highScore) {
-            highScore = ship.points;
-            this.highScoreText.text = highScore;
+        if (this.p1Score > highScore) { // figure out how to keep the highest score and keep it consistent throughout scenes
+            highScore += ship.points;
+            //this.highScoreText.text = highScore;
         }
+        this.highScoreText.text = highScore;
 
         this.sound.play('sfx_explosion');
     }
