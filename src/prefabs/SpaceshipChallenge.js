@@ -16,6 +16,11 @@ class SpaceshipChallenge extends Phaser.GameObjects.Sprite {
         }
     }
 
+    increaseSpeed(multiplier)
+    {
+        this.moveSpeed *= multiplier;
+    }
+
     // position reset
     reset() {
         this.x = this.x + 620;
