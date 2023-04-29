@@ -169,7 +169,8 @@ class Play extends Phaser.Scene{
         });
     
         // score add and repaint
-        this.p1Score += (ship.points + fship.points);
+        total = ship.points + fship.points;
+        this.p1Score += total;
         this.scoreLeft.text = this.p1Score;
 
         if (this.p1Score > highScore) {
