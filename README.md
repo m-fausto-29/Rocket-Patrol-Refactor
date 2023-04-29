@@ -9,4 +9,3 @@
 - Add your own (copyright-free) background music to the Play scene (please be mindful of the volume) (5)
 - Create 4 new explosion sound effects and randomize which one plays on impact (10)
 - Create a new title screen (e.g., new artwork, typography, layout) (10)
-- Implement an alternating two-player mode (15)
