@@ -57,6 +57,10 @@ class Play extends Phaser.Scene{
         this.p1Score = 0;
         this.highScore = 0;
 
+        //initialize time left
+        this.p1time = 60;
+        this.timeLeft = 60;
+
         // display score
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -71,6 +75,7 @@ class Play extends Phaser.Scene{
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+        this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth, borderUISize + borderPadding*2, this.timeleft, scoreConfig);
 
         // high score text
         this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, this.highScore, scoreConfig).setOrigin(0.5, 0);
@@ -80,11 +85,11 @@ class Play extends Phaser.Scene{
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
-        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }, null, this);
+        //this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+          //  this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            //this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+            //this.gameOver = true;
+        //}, null, this);
 
         // Increase speed after 30 sec
         this.clock30 = this.time.delayedCall(game.settings.gameTimer/2, () => 
@@ -94,9 +99,30 @@ class Play extends Phaser.Scene{
             this.ship03.increaseSpeed(1.5);
             this.fastShip.increaseSpeed(1.5);
         }, null, this);
+
+        //Starting time
+        this.startTime = Date.now();
     }
 
     update(){
+        if(this.timeleft <= 0){
+            this.timeleft = 0;
+            let scoreConfig = {
+              fontFamily: 'Courier',
+              fontSize: '28px',
+              backgroundColor: '#F3B141',
+              color: '#843605',
+              align: 'right',
+                padding: {
+                  top: 5,
+                  bottom: 5,
+                },
+              fixedWidth: 0
+            }
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+        }
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -115,6 +141,18 @@ class Play extends Phaser.Scene{
             this.ship02.update();
             this.ship03.update();
             this.fastShip.update();             // update spaceshipChallenge sprite
+        }
+
+        // Time left
+        this.timeleft = Math.floor((this.p1time*1000 - (Date.now() - this.startTime))/1000);
+        if(this.timeleft < 0){
+            this.timeleft = 0;
+        }
+        if(this.timeleft % 60 < 10){
+            this.scoreRight.text = (Math.floor(this.timeleft/60) + ':0' + (this.timeleft % 60));
+        }
+        else{
+            this.scoreRight.text = (Math.floor(this.timeleft/60) + ':' + (this.timeleft % 60));
         }
 
         // check collisions
