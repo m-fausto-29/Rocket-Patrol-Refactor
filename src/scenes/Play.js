@@ -153,7 +153,7 @@ class Play extends Phaser.Scene{
         this.scoreLeft.text = this.p1Score;
 
         if (this.p1Score > highScore) {
-            highScore = rocket.points;
+            highScore = ship.points;
             this.highScoreText.text = highScore;
         }
 
