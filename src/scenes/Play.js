@@ -51,7 +51,7 @@ class Play extends Phaser.Scene{
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         // define mouse controls
         mouse = this.input;
@@ -98,11 +98,11 @@ class Play extends Phaser.Scene{
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
-        //this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
-          //  this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            //this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
-            //this.gameOver = true;
-        //}, null, this);
+        this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+        }, null, this);
 
         // Increase speed after 30 sec
         this.clock30 = this.time.delayedCall(game.settings.gameTimer/2, () => 
@@ -115,9 +115,8 @@ class Play extends Phaser.Scene{
 
         //Starting time
         this.startTime = Date.now();
-    }
 
-    update(){
+        /*
         if(this.timeleft <= 0){
             this.timeleft = 0;
             let scoreConfig = {
@@ -136,6 +135,30 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
         }
+        */
+    }
+
+    update(){
+        /*
+        if(this.timeleft <= 0){
+            this.timeleft = 0;
+            let scoreConfig = {
+              fontFamily: 'Courier',
+              fontSize: '28px',
+              backgroundColor: '#F3B141',
+              color: '#843605',
+              align: 'right',
+                padding: {
+                  top: 5,
+                  bottom: 5,
+                },
+              fixedWidth: 0
+            }
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+        }
+        */
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
