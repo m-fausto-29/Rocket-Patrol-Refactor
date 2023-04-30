@@ -9,6 +9,7 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceshipChallenge', './assets/spaceshipChallenge.png');
+        this.load.image('asteroid', './assets/asteroid.png');
         //this.load.image('particle', './assets/particle.png');
         this.load.image('improved_starfield', './assets/improved_starfield.png');
 
@@ -58,6 +59,9 @@ class Play extends Phaser.Scene{
 
         // add spaceshipChallenge (x1)
         this.fastShip = new SpaceshipChallenge(this, game.config.width + 288, 132, "spaceshipChallenge", 0, 50).setOrigin(0, 0);
+
+        // add asteroid (x1)
+        this.asteroid = new Asteroid(this, game.config.width, borderUISize*7 + borderPadding*5, 'asteroid', 0, 5).setOrigin(0, 0);
         
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -123,6 +127,7 @@ class Play extends Phaser.Scene{
             this.ship02.increaseSpeed(1.5);
             this.ship03.increaseSpeed(1.5);
             this.fastShip.increaseSpeed(1.5);
+
         }, null, this);
 
         //Starting time
@@ -191,6 +196,7 @@ class Play extends Phaser.Scene{
             this.ship02.update();
             this.ship03.update();
             this.fastShip.update();             // update spaceshipChallenge sprite
+            this.asteroid.update();             // update asteroid sprite
         }
 
         // Time left
@@ -221,6 +227,10 @@ class Play extends Phaser.Scene{
         if(this.checkCollision(this.p1Rocket, this.fastShip)) {
             this.p1Rocket.reset();
             this.shipExplode(this.fastShip);
+        }
+        if(this.checkCollision(this.p1Rocket, this.asteroid)) {
+            this.p1Rocket.reset();
+            this.rockExplode(this.asteroid);
         }
     }
 
@@ -261,5 +271,31 @@ class Play extends Phaser.Scene{
         this.highScoreText.text = highScore;
 
         //this.sound.play('sfx_explosion');
+    }
+
+    rockExplode(rock){
+        // temporarily hide rock
+        rock.alpha = 0;
+
+        // create explosion sprite at rock's position
+        let boom = this.add.sprite(rock.x, rock.y, 'explosion').setOrigin(0, 0);
+        boom.anims.play('explode');             // play explode animation
+        boom.on('animationcomplete', () => {    // callback after anim completes
+            rock.reset();                       // reset rock position
+            rock.alpha = 1;                     // make rock visible again
+            boom.destroy();                     // remove explosion sprite
+        });
+    
+        // score add and repaint
+        this.p1Score -= rock.points;
+        this.scoreLeft.text = this.p1Score;
+
+        if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
+            highScore -= rock.points; 
+            //this.highScoreText.text = highScore;
+        }
+        this.highScoreText.text = highScore;
+
+        this.sound.play('sfx_explosion');
     }
 }
