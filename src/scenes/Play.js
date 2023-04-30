@@ -17,6 +17,14 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+
+        // Adding music
+        this.music = this.sound.add("bg_music", 
+        {
+            loop:true
+        });
+        this.music.play();
+
         //place tile sprite
         this.improved_starfield = this.add.tileSprite(0, 0, 640, 480, 'improved_starfield').setOrigin(0, 0);
 
@@ -43,7 +51,10 @@ class Play extends Phaser.Scene{
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        //keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        // define mouse controls
+        mouse = this.input;
 
         
         //animation config
@@ -82,6 +93,8 @@ class Play extends Phaser.Scene{
 
         // GAME OVER flag
         this.gameOver = false
+
+        // Add a conditional statement that checks which timer we're working with 60 or 45 for ez and hard mode
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
@@ -130,6 +143,8 @@ class Play extends Phaser.Scene{
 
         // check key input for returning to Menu
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            // Stopping music
+            this.sound.stopAll()
             this.scene.start("menuScene");
         }
 
@@ -201,7 +216,7 @@ class Play extends Phaser.Scene{
         this.scoreLeft.text = this.p1Score;
 
         if (this.p1Score > highScore) { // figure out how to keep the highest score and keep it consistent throughout scenes
-            highScore += ship.points;
+            highScore += ship.points; // look at i-cortez example
             //this.highScoreText.text = highScore;
         }
         this.highScoreText.text = highScore;
