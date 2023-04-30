@@ -24,6 +24,18 @@ class Play extends Phaser.Scene{
             loop:true
         });
         this.music.play();
+        /*
+            let musicConfig = {
+            mute: false,
+            volume: 1,
+            rate: 1,
+            detune: 0,
+            seek: 0,
+            loop: true,
+            delay: 0
+        }
+        this.bgMusic = this.sound.add('bg_music', musicConfig);
+        */
 
         //place tile sprite
         this.improved_starfield = this.add.tileSprite(0, 0, 640, 480, 'improved_starfield').setOrigin(0, 0);
@@ -238,12 +250,16 @@ class Play extends Phaser.Scene{
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
 
-        if (this.p1Score > highScore) { // figure out how to keep the highest score and keep it consistent throughout scenes
-            highScore += ship.points; // look at i-cortez example
+        // randomize sounds init
+        let sounds = ['sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4', 'sfx_explosion5'];
+        this.sound.play(sounds[Math.floor(Math.random() * sounds.length)]);
+
+        if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
+            highScore += ship.points; 
             //this.highScoreText.text = highScore;
         }
         this.highScoreText.text = highScore;
 
-        this.sound.play('sfx_explosion');
+        //this.sound.play('sfx_explosion');
     }
 }
