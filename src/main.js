@@ -19,3 +19,11 @@ let highScore = 0;
 
 // set mouse controls;
 let mouse;
+
+// Current issues
+/*
+    Sprites are moving too slow
+    fast ship continues to overlap with borders
+    high score does not persist
+    adjust timer to account for hard mode with 45 seconds
+*/
