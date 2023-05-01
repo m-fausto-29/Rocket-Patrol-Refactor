@@ -114,15 +114,18 @@ class Play extends Phaser.Scene{
             fixedWidth: 100
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.p1Score, scoreConfig);
+
+        //Timer text
         this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth, borderUISize + borderPadding*2, this.timeleft, scoreConfig);
 
+        //FIRE text
+        //this.scoreCTR = this.add.text((game.config.width - scoreConfig.fixedWidth)/2, borderUISize + borderPadding*2, "", scoreConfig);
+        this.scoreCTR = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, "", scoreConfig).setOrigin(0.5, 0);
         // high score text
-        this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, this.highScore, scoreConfig).setOrigin(0.5, 0);
+        //this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, this.highScore, scoreConfig).setOrigin(0.5, 0);
 
         // GAME OVER flag
-        this.gameOver = false
-
-        // Add a conditional statement that checks which timer we're working with 60 or 45 for ez and hard mode
+        this.gameOver = false;
 
         // 60-second play clock
         scoreConfig.fixedWidth = 0;
@@ -203,6 +206,12 @@ class Play extends Phaser.Scene{
         this.improved_starfield.tilePositionX -= 4;
 
         if(!this.gameOver) {
+            if(mouse.activePointer.leftButtonDown() && !this.p1Rocket.isFiring){
+                this.scoreCTR.text = "FIRE!";
+                this.clock = this.time.delayedCall(1000, () => {
+                    this.scoreCTR.text = "";
+                }, null, this);
+            }
             this.p1Rocket.update();             // update rocket sprite
             this.ship01.update()                // update spaceships (x3)
             this.ship02.update();
@@ -277,11 +286,14 @@ class Play extends Phaser.Scene{
         let sounds = ['sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4', 'sfx_explosion5'];
         this.sound.play(sounds[Math.floor(Math.random() * sounds.length)]);
 
+
+        /*
         if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
             highScore += ship.points; 
             //this.highScoreText.text = highScore;
         }
         this.highScoreText.text = highScore;
+        */
 
         //this.sound.play('sfx_explosion');
     }
@@ -304,11 +316,13 @@ class Play extends Phaser.Scene{
         this.p1Score -= rock.points;
         this.scoreLeft.text = this.p1Score;
 
+        /*
         if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
             highScore += rock.points; 
             this.highScoreText.text = highScore;
         }
         this.highScoreText.text = highScore;
+        */
 
         this.sound.play('sfx_explosion');
     }

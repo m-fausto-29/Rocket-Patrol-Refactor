@@ -32,8 +32,8 @@ class Rocket extends Phaser.GameObjects.Sprite {
         // fire button
         if(mouse.activePointer.leftButtonDown() && !this.isFiring) 
         {
-          this.isFiring = true;
-          this.sfxRocket.play(); // play the rocket sfx
+            this.isFiring = true;
+            this.sfxRocket.play(); // play the rocket sfx
         }
         /*
         // if fired, move up
