@@ -2,7 +2,6 @@
 - Crashing into non-ship object lose points (10)
 - Create a new scrolling tile sprite for the background (5)
 - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (15)
-- Track a high score that persists across scenes and display it in the UI (5)
 - Implement the speed increase that happens after 30 seconds in the original game (5)
 - Display the time remaining (in seconds) on the screen (10)
 - Implement mouse control for player movement and mouse click to fire (15)
