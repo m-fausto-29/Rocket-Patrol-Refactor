@@ -11,11 +11,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
     }
 
     update(){
-        // left/right movement
-        // if the rocket is firing, movement is not allowed
-        // use the pointer as the user movement input
-        // code adapted from:
-        //  https://phaser.io/examples/v3/view/games/breakout/breakout
+        // left/right movement with mouse
         mouse.on
         (
             "pointermove", // event
@@ -35,28 +31,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.isFiring = true;
             this.sfxRocket.play(); // play the rocket sfx
         }
-        /*
-        // if fired, move up
-        if(this.isFiring && this.y >= 108) this.y -= 2;
-        // reset on miss
-        if(this.y <= 108)
-        {
-            this.isFiring = false;
-            this.y = 431;
-        }
-        if(!this.isFiring){
-            if(keyLEFT.isDown && this.x >= borderUISize + this.width){
-                this.x -= this.moveSpeed;
-            } else if(keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width){
-                this.x += this.moveSpeed;
-            }
-        }
-        // fire button
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
-            this.isFiring = true;
-            this.sfxRocket.play();  // play sfx
-        }
-        */
+       
         // if fired, move up
         if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
             this.y -= this.moveSpeed;

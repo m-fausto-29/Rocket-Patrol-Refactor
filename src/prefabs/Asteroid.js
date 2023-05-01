@@ -8,7 +8,7 @@ class Asteroid extends Phaser.GameObjects.Sprite {
     }
 
     update() {
-        // move spaceship left
+        // move asteroid left
         this.x -= this.moveSpeed;
         // wrap around from left edge to right edge  
         if(this.x <= 0 - this.width) {

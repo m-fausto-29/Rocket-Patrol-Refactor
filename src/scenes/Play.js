@@ -10,7 +10,6 @@ class Play extends Phaser.Scene{
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceshipChallenge', './assets/fastShip.png');
         this.load.image('asteroid', './assets/Asteroid.png');
-        //this.load.image('particle', './assets/particle.png');
         this.load.image('improved_starfield', './assets/improved_starfield.png');
 
         // load spritesheet
@@ -25,18 +24,6 @@ class Play extends Phaser.Scene{
             loop:true
         });
         this.music.play();
-        /*
-            let musicConfig = {
-            mute: false,
-            volume: 1,
-            rate: 1,
-            detune: 0,
-            seek: 0,
-            loop: true,
-            delay: 0
-        }
-        this.bgMusic = this.sound.add('bg_music', musicConfig);
-        */
 
         //place tile sprite
         this.improved_starfield = this.add.tileSprite(0, 0, 640, 480, 'improved_starfield').setOrigin(0, 0);
@@ -62,7 +49,6 @@ class Play extends Phaser.Scene{
 
         // add asteroid (x1)
         this.asteroid = new Asteroid(this, game.config.width, borderUISize*8 + borderPadding*5.7, 'asteroid', 0, 5).setOrigin(0, 0);
-        this.asteroid1 = new Asteroid(this, game.config.width + borderUISize*3.7, borderUISize*5.7 + borderPadding*2.7, 'asteroid', 0, 30).setOrigin(0, 0);
         
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -73,7 +59,6 @@ class Play extends Phaser.Scene{
         // define mouse controls
         mouse = this.input;
 
-        
         //animation config
         this.anims.create({
             key: 'explode',
@@ -83,13 +68,12 @@ class Play extends Phaser.Scene{
 
         // initialize score
         this.p1Score = 0;
-        this.highScore = 0;
 
         //initialize time left
         this.p1time = 60;
-        //this.timeLeft = 60;
         this.timeLeft = 0;
 
+        // Checking gameTimer to determine how much time to display
         if(game.settings.gameTimer == 60000)
         {
             this.p1time = 60;
@@ -120,10 +104,7 @@ class Play extends Phaser.Scene{
         this.scoreRight = this.add.text(game.config.width - borderUISize - borderPadding - scoreConfig.fixedWidth, borderUISize + borderPadding*2, this.timeleft, scoreConfig);
 
         //FIRE text
-        //this.scoreCTR = this.add.text((game.config.width - scoreConfig.fixedWidth)/2, borderUISize + borderPadding*2, "", scoreConfig);
         this.scoreCTR = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, "", scoreConfig).setOrigin(0.5, 0);
-        // high score text
-        //this.highScoreText = this.add.text(game.config.width / 2, borderUISize + borderPadding * 2, this.highScore, scoreConfig).setOrigin(0.5, 0);
 
         // GAME OVER flag
         this.gameOver = false;
@@ -149,49 +130,10 @@ class Play extends Phaser.Scene{
         //Starting time
         this.startTime = Date.now();
 
-        /*
-        if(this.timeleft <= 0){
-            this.timeleft = 0;
-            let scoreConfig = {
-              fontFamily: 'Courier',
-              fontSize: '28px',
-              backgroundColor: '#F3B141',
-              color: '#843605',
-              align: 'right',
-                padding: {
-                  top: 5,
-                  bottom: 5,
-                },
-              fixedWidth: 0
-            }
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }
-        */
     }
 
     update(){
-        /*
-        if(this.timeleft <= 0){
-            this.timeleft = 0;
-            let scoreConfig = {
-              fontFamily: 'Courier',
-              fontSize: '28px',
-              backgroundColor: '#F3B141',
-              color: '#843605',
-              align: 'right',
-                padding: {
-                  top: 5,
-                  bottom: 5,
-                },
-              fixedWidth: 0
-            }
-            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
-            this.gameOver = true;
-        }
-        */
+
         // check key input for restart
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
@@ -207,7 +149,7 @@ class Play extends Phaser.Scene{
         this.improved_starfield.tilePositionX -= 4;
 
         if(!this.gameOver) {
-            if(mouse.activePointer.leftButtonDown() && !this.p1Rocket.isFiring){
+            if(mouse.activePointer.leftButtonDown() && !this.p1Rocket.isFiring){    // FIRE text shown for one second when mouse clicked
                 this.scoreCTR.text = "FIRE!";
                 this.clock = this.time.delayedCall(1000, () => {
                     this.scoreCTR.text = "";
@@ -218,11 +160,10 @@ class Play extends Phaser.Scene{
             this.ship02.update();
             this.ship03.update();
             this.fastShip.update();             // update spaceshipChallenge sprite
-            this.asteroid.update();             // update asteroid sprites (x2)
-            this.asteroid1.update();
+            this.asteroid.update();             // update asteroid sprite (x1)
         }
 
-        // Time left
+        // Timer Display
         this.timeleft = Math.floor((this.p1time*1000 - (Date.now() - this.startTime))/1000);
         if(this.timeleft < 0){
             this.timeleft = 0;
@@ -253,13 +194,7 @@ class Play extends Phaser.Scene{
         }
         if(this.checkCollision(this.p1Rocket, this.asteroid)) {
             this.p1Rocket.reset();
-            //this.shipExplode(this.asteroid);
             this.rockExplode(this.asteroid);
-        }
-        if(this.checkCollision(this.p1Rocket, this.asteroid1)) {
-            this.p1Rocket.reset();
-            //this.shipExplode(this.asteroid);
-            this.rockExplode(this.asteroid1);
         }
     }
 
@@ -289,20 +224,10 @@ class Play extends Phaser.Scene{
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score;
 
-        // randomize sounds init
+        // randomize sounds 
         let sounds = ['sfx_explosion2', 'sfx_explosion3', 'sfx_explosion4', 'sfx_explosion5'];
         this.sound.play(sounds[Math.floor(Math.random() * sounds.length)]);
 
-
-        /*
-        if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
-            highScore += ship.points; 
-            //this.highScoreText.text = highScore;
-        }
-        this.highScoreText.text = highScore;
-        */
-
-        //this.sound.play('sfx_explosion');
     }
 
     
@@ -320,16 +245,8 @@ class Play extends Phaser.Scene{
         });
     
         // score add and repaint
-        this.p1Score -= rock.points;
+        this.p1Score -= rock.points + 5;
         this.scoreLeft.text = this.p1Score;
-
-        /*
-        if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
-            highScore += rock.points; 
-            this.highScoreText.text = highScore;
-        }
-        this.highScoreText.text = highScore;
-        */
 
         this.sound.play('sfx_explosion');
     }

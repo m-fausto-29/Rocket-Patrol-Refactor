@@ -37,8 +37,5 @@ let keyF, keyR, keyLEFT, keyRIGHT;
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
-//set high score
-let highScore = 0;
-
 // set mouse controls;
 let mouse;
