@@ -20,8 +20,9 @@ let highScore = 0;
 // set mouse controls;
 let mouse;
 
-// Current issues
+// Things to do before submitting
 /*
-    high score does not persist - look up more resources on how they're tracking the high score
-    all else fails switch to the alternating player and fire ui text 
+    Have TA test it beforehand if possible
+    Change positions of fastship and asteroid
+    change asteroid's appearance
 */
