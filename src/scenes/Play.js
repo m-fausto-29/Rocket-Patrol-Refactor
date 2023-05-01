@@ -8,7 +8,7 @@ class Play extends Phaser.Scene{
         //load images/tile sprites
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
-        this.load.image('spaceshipChallenge', './assets/spaceshipChallenge.png');
+        this.load.image('spaceshipChallenge', './assets/fastShip.png');
         this.load.image('asteroid', './assets/asteroid.png');
         //this.load.image('particle', './assets/particle.png');
         this.load.image('improved_starfield', './assets/improved_starfield.png');
@@ -86,7 +86,19 @@ class Play extends Phaser.Scene{
 
         //initialize time left
         this.p1time = 60;
-        this.timeLeft = 60;
+        //this.timeLeft = 60;
+        this.timeLeft = 0;
+
+        if(game.settings.gameTimer == 60000)
+        {
+            this.p1time = 60;
+            this.timeLeft = 60;
+        }
+        if(game.settings.gameTimer == 45000)
+        {
+            this.p1time = 45;
+            this.timeLeft = 45;
+        }
 
         // display score
         let scoreConfig = {
@@ -230,6 +242,7 @@ class Play extends Phaser.Scene{
         }
         if(this.checkCollision(this.p1Rocket, this.asteroid)) {
             this.p1Rocket.reset();
+            //this.shipExplode(this.asteroid);
             this.rockExplode(this.asteroid);
         }
     }
@@ -273,6 +286,7 @@ class Play extends Phaser.Scene{
         //this.sound.play('sfx_explosion');
     }
 
+    
     rockExplode(rock){
         // temporarily hide rock
         rock.alpha = 0;
@@ -291,11 +305,12 @@ class Play extends Phaser.Scene{
         this.scoreLeft.text = this.p1Score;
 
         if (this.p1Score > highScore) { // current issue: it kinda saves high score but when starting a new game it initializes to 0 then changes to the actual high score
-            highScore -= rock.points; 
-            //this.highScoreText.text = highScore;
+            highScore += rock.points; 
+            this.highScoreText.text = highScore;
         }
         this.highScoreText.text = highScore;
 
         this.sound.play('sfx_explosion');
     }
+    
 }

@@ -22,8 +22,6 @@ let mouse;
 
 // Current issues
 /*
-    Sprites are moving too slow
-    fast ship continues to overlap with borders
-    high score does not persist
-    adjust timer to account for hard mode with 45 seconds
+    high score does not persist - look up more resources on how they're tracking the high score
+    all else fails switch to the alternating player and fire ui text 
 */
