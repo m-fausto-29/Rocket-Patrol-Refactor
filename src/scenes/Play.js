@@ -9,7 +9,7 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship', './assets/spaceship.png');
         this.load.image('spaceshipChallenge', './assets/fastShip.png');
-        this.load.image('asteroid', './assets/asteroid.png');
+        this.load.image('asteroid', './assets/Asteroid.png');
         //this.load.image('particle', './assets/particle.png');
         this.load.image('improved_starfield', './assets/improved_starfield.png');
 
@@ -58,10 +58,11 @@ class Play extends Phaser.Scene{
         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0, 0);
 
         // add spaceshipChallenge (x1)
-        this.fastShip = new SpaceshipChallenge(this, game.config.width + 288, 132, "spaceshipChallenge", 0, 50).setOrigin(0, 0);
+        this.fastShip = new SpaceshipChallenge(this, game.config.width, borderUISize*7 + borderPadding*5, "spaceshipChallenge", 0, 0).setOrigin(0, 0);
 
         // add asteroid (x1)
-        this.asteroid = new Asteroid(this, game.config.width, borderUISize*7 + borderPadding*5, 'asteroid', 0, 5).setOrigin(0, 0);
+        this.asteroid = new Asteroid(this, game.config.width, borderUISize*8 + borderPadding*5.7, 'asteroid', 0, 5).setOrigin(0, 0);
+        this.asteroid1 = new Asteroid(this, game.config.width + borderUISize*3.7, borderUISize*5.7 + borderPadding*2.7, 'asteroid', 0, 30).setOrigin(0, 0);
         
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -217,7 +218,8 @@ class Play extends Phaser.Scene{
             this.ship02.update();
             this.ship03.update();
             this.fastShip.update();             // update spaceshipChallenge sprite
-            this.asteroid.update();             // update asteroid sprite
+            this.asteroid.update();             // update asteroid sprites (x2)
+            this.asteroid1.update();
         }
 
         // Time left
@@ -253,6 +255,11 @@ class Play extends Phaser.Scene{
             this.p1Rocket.reset();
             //this.shipExplode(this.asteroid);
             this.rockExplode(this.asteroid);
+        }
+        if(this.checkCollision(this.p1Rocket, this.asteroid1)) {
+            this.p1Rocket.reset();
+            //this.shipExplode(this.asteroid);
+            this.rockExplode(this.asteroid1);
         }
     }
 

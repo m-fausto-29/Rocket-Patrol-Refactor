@@ -3,7 +3,7 @@ class SpaceshipChallenge extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, pointValue) {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);   // add to existing scene
-        this.points = pointValue + 3;   //store pointValue
+        this.points = pointValue + 2;   //store pointValue
         this.moveSpeed = game.settings.fastshipSpeed;         //pixels per frame
     }
 

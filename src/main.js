@@ -19,10 +19,3 @@ let highScore = 0;
 
 // set mouse controls;
 let mouse;
-
-// Things to do before submitting
-/*
-    Have TA test it beforehand if possible
-    Change positions of fastship and asteroid
-    change asteroid's appearance
-*/
