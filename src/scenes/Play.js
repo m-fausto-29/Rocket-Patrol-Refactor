@@ -14,6 +14,7 @@ class Play extends Phaser.Scene{
 
         // load spritesheet
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+        this.load.spritesheet('explosion1', './assets/explosion1.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
 
     create(){
@@ -27,6 +28,7 @@ class Play extends Phaser.Scene{
 
         //place tile sprite
         this.improved_starfield = this.add.tileSprite(0, 0, 640, 480, 'improved_starfield').setOrigin(0, 0);
+        this.improved_starfield.setDepth(-1);
 
         //green UI background
         this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
@@ -49,6 +51,7 @@ class Play extends Phaser.Scene{
 
         // add asteroid (x1)
         this.asteroid = new Asteroid(this, game.config.width, borderUISize*8 + borderPadding*5.7, 'asteroid', 0, 5).setOrigin(0, 0);
+        this.asteroid.setDepth(-0.5);
         
         // define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -59,10 +62,17 @@ class Play extends Phaser.Scene{
         // define mouse controls
         mouse = this.input;
 
-        //animation config
+        //animation config for ships
         this.anims.create({
             key: 'explode',
             frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+            frameRate: 30
+        })
+
+        //animation config for asteroid
+        this.anims.create({
+            key: 'explode1',
+            frames: this.anims.generateFrameNumbers('explosion1', { start: 0, end: 9, first: 0}),
             frameRate: 30
         })
 
@@ -236,8 +246,8 @@ class Play extends Phaser.Scene{
         rock.alpha = 0;
 
         // create explosion sprite at rock's position
-        let boom = this.add.sprite(rock.x, rock.y, 'explosion').setOrigin(0, 0);
-        boom.anims.play('explode');             // play explode animation
+        let boom = this.add.sprite(rock.x, rock.y, 'explosion1').setOrigin(0, 0);
+        boom.anims.play('explode1');             // play explode animation
         boom.on('animationcomplete', () => {    // callback after anim completes
             rock.reset();                       // reset rock position
             rock.alpha = 1;                     // make rock visible again
