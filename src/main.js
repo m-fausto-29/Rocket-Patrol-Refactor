@@ -4,8 +4,9 @@ Name: Monserrat Fausto
 Mod Title: Rocket Patrol: Return of the Rocket
 Estimated Hours: 11.5 hours
 List of Mods: 
- - Crashing into non-ship object lose points (10): Approved by TA, I created a separate class for this object and named it 'Asteroid'
-    the idea being that the player would lose points if they hit this type of object and must try to avoid hitting it to avoid this outcome
+ - Crashing into non-ship object lose points (20): Approved by TA and Nathan, I created a separate class for this object and named it 'Asteroid'
+    the idea being that the player would lose points if they hit this type of object and must try to avoid hitting it to avoid this outcome.
+    After meeting with Nathan, I included additional assets to this including new animation, sfx, and appearance.
  - Create a new scrolling tile sprite for the background (5)
  - Create a new enemy Spaceship type (w/ new artwork) that's smaller, moves faster, and is worth more points (15)
  - Implement the speed increase that happens after 30 seconds in the original game (5)
