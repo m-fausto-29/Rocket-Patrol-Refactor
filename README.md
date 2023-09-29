@@ -9,3 +9,5 @@
 - Create 4 new explosion sound effects and randomize which one plays on impact (10)
 - Create a new title screen (e.g., new artwork, typography, layout) (10)
 - Implement the 'FIRE' UI text from the original game (5)
+
+- Playable Link: https://m-fausto-29.github.io/Rocket-Patrol-Refactor/
