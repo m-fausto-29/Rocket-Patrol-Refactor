@@ -17,6 +17,7 @@ List of Mods:
  - Create a new title screen (e.g., new artwork, typography, layout) (10)
  - Implement the 'FIRE' UI text from the original game (5)
 Citations:
+ - Base code by Nathan Altice
  - freesound.org: Used to find copyright-free sfx and background music
  - pixilart.com: Used to create custom sprites, title screen, and new scrolling tile sprite for background
  - Used as reference for random sfx: https://stackoverflow.com/questions/39604400/play-a-random-sound-on-single-button
